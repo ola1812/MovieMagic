@@ -1,17 +1,18 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import models.Users;
 
 public class MovieMagicAPI {
 
-	private List <Users> users = new ArrayList<>();
+	private Map <String, Users> users = new HashMap<String, Users>();
 	
-	public List <Users> getUser()
+	public Collection <Users> getUser()
 	{
-		return users;
+		return users.values();
 	}
 	
 	public void deleteUsers()
@@ -22,32 +23,18 @@ public class MovieMagicAPI {
 	public Users createUser(String fname, String lname, int age, String gender, String job)
 	{
 		Users user= new Users (fname, lname, age, gender, job);
-		users.add(user);
+		users.put(lname, user);
 		return user;
 	}
 	
 	public Users getUser(String lname)
 	{
-		for(Users user : users)
-		{
-			if(lname.equals(user.lname))
-				return user;
-		}
-		
-		return null;
+		return users.get(lname);
 	}
 	
 	public void deleteUser(String lname)
 	{
-		Users foundUser = null;
-		for (Users user : users)
-		{
-			if(lname.equals(user.lname))
-				foundUser = user;		
+		users.remove(lname);
 	}
-	if (foundUser !=null)
-	{
-		users.remove(foundUser);
 	}
-	}}
 
