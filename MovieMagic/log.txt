@@ -20,3 +20,7 @@ Adding users
 Finish adding users
 Adding users to XML file
 Finish shutting down
+Adding users
+Finish adding users
+Adding users to XML file
+Finish shutting down

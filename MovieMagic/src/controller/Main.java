@@ -3,7 +3,7 @@ package controller;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.List;
+import java.util.Collection;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -22,9 +22,18 @@ public class Main {
 		logger.log("Adding users");
 		
 		moviemagicAPI.createUser("Ola","Bartos",18,"female","magician");
+		moviemagicAPI.createUser("Marcel","Laptop",6,"laptop","laptop");
 		
-		List<Users> users = moviemagicAPI.getUser();
 		
+		Collection <Users> users = moviemagicAPI.getUser();
+		
+		System.out.println(users);
+		
+		Users ola = moviemagicAPI.getUsersByLname("Bartos");
+		System.out.println(ola);
+		
+		moviemagicAPI.deleteUser(ola.id);
+		users = moviemagicAPI.getUser();
 		System.out.println(users);
 		
 		logger.log("Finish adding users");

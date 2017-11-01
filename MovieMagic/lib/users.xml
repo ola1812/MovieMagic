@@ -1,11 +1,17 @@
 <object-stream>
-  <list>
-    <models.Users>
-      <fname>Ola</fname>
-      <lname>Bartos</lname>
-      <age>18</age>
-      <gender>female</gender>
-      <job>magician</job>
-    </models.Users>
-  </list>
+  <java.util.HashMap_-Values>
+    <outer-class>
+      <entry>
+        <long>1</long>
+        <models.Users>
+          <id>1</id>
+          <fname>Marcel</fname>
+          <lname>Laptop</lname>
+          <age>6</age>
+          <gender>laptop</gender>
+          <job>laptop</job>
+        </models.Users>
+      </entry>
+    </outer-class>
+  </java.util.HashMap_-Values>
 </object-stream>

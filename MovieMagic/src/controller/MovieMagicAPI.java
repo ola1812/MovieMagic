@@ -6,35 +6,47 @@ import java.util.Map;
 
 import models.Users;
 
+
 public class MovieMagicAPI {
 
-	private Map <String, Users> users = new HashMap<String, Users>();
+	private Map <Long, Users> userIndex = new HashMap<>();
+	private Map <String, Users> lnameIndex = new HashMap<>();
 	
 	public Collection <Users> getUser()
 	{
-		return users.values();
+		return userIndex.values();
 	}
 	
 	public void deleteUsers()
 	{
-		users.clear();
+		userIndex.clear();
+		lnameIndex.clear();
 	}
 	
 	public Users createUser(String fname, String lname, int age, String gender, String job)
 	{
 		Users user= new Users (fname, lname, age, gender, job);
-		users.put(lname, user);
+		userIndex.put(user.id, user);
+		lnameIndex.put(lname,  user);
 		return user;
 	}
 	
-	public Users getUser(String lname)
+	public Users getUsersByLname(String lname)
 	{
-		return users.get(lname);
+		return lnameIndex.get(lname);
 	}
 	
-	public void deleteUser(String lname)
+	public Users getUser(Long id)
 	{
-		users.remove(lname);
+		return userIndex.get(id);
 	}
+	
+	public void deleteUser(Long id)
+	{
+		Users user= userIndex.remove(id);
+		lnameIndex.remove(user.lname);
+	}
+	
+	
 	}
 
