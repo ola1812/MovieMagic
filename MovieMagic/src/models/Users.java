@@ -2,6 +2,9 @@ package models;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Users {
 	
 	static Long counter=0L;
@@ -10,11 +13,13 @@ public class Users {
 	
 	public String fname;
 	public String lname;
-	public int age;
+	public String age;
 	public String gender;
 	public String job;
 	
-	public Users(String fname, String lname, int age, String gender, String job) {
+	public Map<Long, Movies> movies = new HashMap<>();
+	
+	public Users(String fname, String lname, String age, String gender, String job) {
 		
 		this.id = counter++;
 		
@@ -32,7 +37,8 @@ public class Users {
 	@Override
 	public String toString()
 	{
-		return toStringHelper(this).addValue(fname)
+		return toStringHelper(this).addValue(id)
+				.addValue(fname)
 				.addValue(lname)
 				.addValue(age)
 				.addValue(gender)

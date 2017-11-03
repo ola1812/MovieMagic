@@ -1,5 +1,44 @@
 package models;
 
-public class Movies {
+import static com.google.common.base.MoreObjects.toStringHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Movies {
+	
+	static Long counter=0L;
+	
+	public Long id;
+	
+	public String title;
+	public String year;
+	public String url;
+	public List<Ratings> movieThing = new ArrayList<>();
+	
+	
+	
+	public Movies(String title, String year, String url) {
+		
+		this.id = counter++;
+		
+		this.title = title;
+		this.year = year;
+		this.url = url;
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		return toStringHelper(this)
+				.addValue(id)
+				.addValue(title)
+				.addValue(year)
+				.addValue(url)
+				.toString();
+	}
+	
 }
