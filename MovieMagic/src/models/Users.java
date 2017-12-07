@@ -16,10 +16,11 @@ public class Users {
 	public String age;
 	public String gender;
 	public String job;
+    public String role;
 	
-	public Map<Long, Movies> movies = new HashMap<>();
+	public Map<Long, Ratings> UserRating = new HashMap<>();
 	
-	public Users(String fname, String lname, String age, String gender, String job) {
+	public Users(String fname, String lname, String age, String gender, String job, String role) {
 		
 		this.id = counter++;
 		
@@ -28,6 +29,7 @@ public class Users {
 		this.age = age;
 		this.gender = gender;
 		this.job = job;
+		this.role = role;
 	}
 	
 	public Users() {
@@ -45,6 +47,14 @@ public class Users {
 				.addValue(job)
 				.toString();
 	}
+	
+	 public Users(String fName, String lName, String age, String gender, String job)
+	  {
+	    this(fName,lName, age, gender, job ,"default");
+	  }
+
+	  
+	
 	
 }
 

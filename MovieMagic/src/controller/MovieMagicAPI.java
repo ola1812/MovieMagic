@@ -20,7 +20,9 @@ public class MovieMagicAPI {
 	private Map<Long, Users> 	usersIndex = new HashMap<>();
 	private Map<String, Users> 	usersName = new HashMap<>();
 	private Map<Long, Movies> 	movieIndex = new HashMap<>();
-
+	private Map<Long, Ratings>   ratingIndex = new HashMap<>();
+    Optional <Users> currentUser;
+	
 	public MovieMagicAPI() {
 
 	}
@@ -53,13 +55,13 @@ public class MovieMagicAPI {
 		serializer.read();
 		usersIndex 		= (Map<Long, Users>) serializer.pop();
 		movieIndex 		= (Map<Long, Movies>) serializer.pop();
-		usersName 		= (Map<String, Users>) serializer.pop();
+		//usersName 		= (Map<String, Users>) serializer.pop();
 	}
 	
 	public void store() throws Exception {
-		serializer.push(usersIndex);
-		serializer.push(usersName);
 		serializer.push(movieIndex);
+		serializer.push(usersIndex);
+		//serializer.push(usersName);
 		serializer.write(); 
 	}
 
@@ -92,29 +94,52 @@ public class MovieMagicAPI {
 		usersName.remove(user.lname);
 	}
 
-	public Movies createMovie(Long id, String title, String year, String url) {
-		Movies movie =null; 
-		Optional<Users> user = Optional.fromNullable(usersIndex.get(id));
-		if (user.isPresent()) {
+	public void createMovie(String title, String year, String url) {
+		Movies movie;
 			movie = new Movies(title, year, url);
-			user.get().movies.put(movie.id, movie);
 			movieIndex.put(movie.id, movie);
 		}
-		return movie;
-	}
+	
 
 	public Movies getMovie(Long id) {
 		return movieIndex.get(id);
 	}
 
-	public void addRatings(Long id, Long userID, Long movieID, int rating) {
-		Optional<Movies> movie = Optional.fromNullable(movieIndex.get(id));
-		if (movie.isPresent()) {
-			movie.get().movieThing.add(new Ratings(userID, movieID, rating));
+	public void addRatings(Long userID, Long movieID, int rating) {
+		Ratings ratings ;
+		Optional<Users> user = Optional.fromNullable(usersIndex.get(userID));
+		Optional<Movies> movie = Optional.fromNullable(movieIndex.get(movieID));
+		if (movie.isPresent() && user.isPresent()) {
+			ratings = new Ratings(userID, movieID, rating); //Adding a new rating 
+			user.get().UserRating.put(ratings.id, ratings); //Putting a user and a rating together
+		    movie.get().movieThing.put(ratings.id, ratings); //Putting Movie and rating together
+		    ratingIndex.put(ratings.id, ratings); //Putting a rating into a collection
 		}
 	}
 	
 	
+	
+	
+	
+	
+	// simplified login method
+	  public boolean login(String userId, String lName) {
+	    Optional<Users> user = Optional.fromNullable(usersIndex.get(userId));
+	    if (user.isPresent() && user.get().lname.equals(lName)) {
+	      currentUser = user;
+	      return true;
+	    }
+	    return false;
+	  }
+	
+	  // simplified and generalized version of my logout method
+	  public void logout() {
+	    Optional<Users> user = currentUser;
+	    if (user.isPresent()) {
+	   
+	      currentUser = Optional.absent();
+	    }
+	  }
 	
 }
 

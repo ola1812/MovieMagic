@@ -2,9 +2,7 @@ package models;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Movies {
@@ -16,7 +14,7 @@ public class Movies {
 	public String title;
 	public String year;
 	public String url;
-	public List<Ratings> movieThing = new ArrayList<>();
+	public Map<Long, Ratings> movieThing = new HashMap<>();
 	
 	
 	
