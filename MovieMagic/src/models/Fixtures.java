@@ -17,7 +17,7 @@ public class Fixtures {
 	
 	public static Ratings[] ratings = {
 			
-		new Ratings(1L, 2L, 3),
+		new Ratings(1L,2L,3),
 		new Ratings(5L, 8L, 6),
 		new Ratings(4L, 9L, 7),	
 	    new Ratings(6L, 2L, 9)

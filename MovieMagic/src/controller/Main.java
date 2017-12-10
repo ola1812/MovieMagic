@@ -18,7 +18,7 @@ public class Main implements ShellDependent {
 	private Shell theShell;
 	
 	public Main() throws Exception {
-	File  datastore = new File("./lib/users1.xml");
+	File  datastore = new File("./lib/users2.xml");
     Serializer serializer = new XMLSerializer(datastore);
 
     moviemagicAPI = new MovieMagicAPI(serializer);
@@ -33,7 +33,7 @@ public class Main implements ShellDependent {
 	}
 	
 	@Command(description = "Log in")
-	public void logIn(@Param(name= "user name") String userId, @Param(name="password")String lname)
+	public void logIn(@Param(name= "user name") Long userId, @Param(name="Lname")String lname)
     throws IOException{
     	
     	  if (moviemagicAPI.login(userId, lname) && moviemagicAPI.currentUser.isPresent()) {

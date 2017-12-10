@@ -5,7 +5,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Users {
+public class Users implements Comparable <Users>{
 	
 	static Long counter=0L;
 	
@@ -52,6 +52,12 @@ public class Users {
 	  {
 	    this(fName,lName, age, gender, job ,"default");
 	  }
+
+	@Override
+	public int compareTo(Users user) {
+		// TODO Auto-generated method stub
+		return this.fname.compareTo(user.fname);
+	}
 
 	  
 	

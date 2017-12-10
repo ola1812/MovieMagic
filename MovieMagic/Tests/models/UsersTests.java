@@ -1,14 +1,16 @@
 package models;
 
 import static models.Fixtures.users;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-public class UserTest {
+
+
+public class UsersTests {
 
 	Users ola = new Users ("ola","bartos","18","female","magician");
 	
@@ -17,7 +19,7 @@ public class UserTest {
 	{
 		assertEquals ("ola", ola.fname);
 		assertEquals ("bartos", ola.lname);
-		assertEquals (18, ola.age);
+		assertEquals ("18", ola.age);
 		assertEquals ("female", ola.gender);
 		assertEquals ("magician", ola.job);
 	}

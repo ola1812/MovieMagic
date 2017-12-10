@@ -1,14 +1,15 @@
 package models;
 
 import static models.Fixtures.movies;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class MovieTest {
+public class MovieTest {
 
 	Movies movie = new Movies ("Twilight","2001","Twilight.ie");
 	

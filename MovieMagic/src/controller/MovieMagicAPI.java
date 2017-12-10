@@ -2,10 +2,13 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import com.google.common.base.Optional;
 
@@ -33,7 +36,7 @@ public class MovieMagicAPI {
 	
 	public void initalLoad() throws IOException {
 		String delims = "[|]";
-		Scanner scanner = new Scanner(new File("./lib/users5.dat"));
+		Scanner scanner = new Scanner(new File("./lib/users5.dat"));//Reading users file
 		while (scanner.hasNextLine()) {
 			String userDetails = scanner.nextLine();
 			// parse user details string
@@ -41,6 +44,32 @@ public class MovieMagicAPI {
 
 			if (userTokens.length == 7) {
 				createUser(userTokens[1], userTokens[2], userTokens[3], userTokens[4], userTokens[5]);
+			} else {
+				scanner.close();
+				throw new IOException("Invalid member length: " + userTokens.length);
+			}
+		}
+		scanner = new Scanner(new File("./lib/items5.dat"));//Reading movie Files
+		while (scanner.hasNextLine()) {
+			String userDetails = scanner.nextLine();
+			// parse user details string
+			String[] userTokens = userDetails.split(delims);
+
+			if (userTokens.length == 23) {
+				createMovie(userTokens[1], userTokens[2], userTokens[3]);
+			} else {
+				scanner.close();
+				throw new IOException("Invalid member length: " + userTokens.length);
+			}
+		}
+		scanner = new Scanner(new File("./lib/ratings5.dat"));//Reading ratings files
+		while (scanner.hasNextLine()) {
+			String userDetails = scanner.nextLine();
+			// parse user details string
+			String[] userTokens = userDetails.split(delims);
+
+			if (userTokens.length == 4) {
+				addRatings(Long.valueOf(userTokens[0]),Long.valueOf(userTokens[1]),Integer.valueOf(userTokens[2]));
 			} else {
 				scanner.close();
 				throw new IOException("Invalid member length: " + userTokens.length);
@@ -105,10 +134,16 @@ public class MovieMagicAPI {
 		return movieIndex.get(id);
 	}
 
-	public void addRatings(Long userID, Long movieID, int rating) {
+	public Collection<Movies> getMovies()
+	{
+		return movieIndex.values();
+	}
+	
+	public void addRatings(Long userID, Long movieID, int rating) 
+	{
 		Ratings ratings ;
-		Optional<Users> user = Optional.fromNullable(usersIndex.get(userID));
-		Optional<Movies> movie = Optional.fromNullable(movieIndex.get(movieID));
+		Optional<Users> user = Optional.fromNullable(usersIndex.get(userID));//gets userID to Link user to a rating
+		Optional<Movies> movie = Optional.fromNullable(movieIndex.get(movieID));//Links movie and a rating
 		if (movie.isPresent() && user.isPresent()) {
 			ratings = new Ratings(userID, movieID, rating); //Adding a new rating 
 			user.get().UserRating.put(ratings.id, ratings); //Putting a user and a rating together
@@ -117,14 +152,89 @@ public class MovieMagicAPI {
 		}
 	}
 	
+	public void getUserRating(Long userID) 
+	{
+		Optional<Users> user = Optional.fromNullable(usersIndex.get(userID));//getting userID to link it to rating 
+		System.out.println(user.get().UserRating);//printing out the ratings that that user gave
+	}
+	
+	public void getMovieRating(Long Movie)
+	{
+		Optional<Movies> movie = Optional.fromNullable(movieIndex.get(Movie));//getting movie and linking it to rating
+		System.out.println(movie.get().movieThing);//printing out the rating for that movie
+	}
+
 	
 	
+	public Ratings getRating(Long ratings)
+	{
+		return ratingIndex.get(ratings);
+	}
+	
+	public Collection<Ratings> getAllRatings()
+	{
+		return ratingIndex.values();
+	}
+	
+	public void deleteRating(Long rating)
+	{
+		ratingIndex.remove(rating);
+	}
 	
 	
+	public void getMovieByTitle(String title)
+	{
+		ArrayList<Movies> movieTitle=new ArrayList<Movies>();
+		movieTitle.addAll(getMovies());
+		for(int i=0; i<movieTitle.size();i++)
+		{
+			if(movieTitle.get(i).title.toUpperCase().contains(title.toUpperCase()))
+			{
+				System.out.println(movieTitle.get(i));
+			}
+		}
+	}
+	
+	public void getUsersByName(String fname)
+	{
+		ArrayList<Users> firstName=new ArrayList<Users>();
+		firstName.addAll(getUsers());
+		for(int i=0; i<firstName.size();i++)
+		{
+			if(firstName.get(i).fname.toUpperCase().contains(fname.toUpperCase()))
+			{
+				System.out.println(firstName.get(i));
+			}
+		}
+	}
+	
+	public void SortByUsers()//searching by users
+	{
+		TreeSet<Users> sortedUsers = new TreeSet<Users>();
+		sortedUsers.addAll(getUsers());
+		Iterator<Users> iter = sortedUsers.iterator();//Goes through users to search through them
+		while(iter.hasNext())
+		{
+			Users users = iter.next();
+			System.out.println(users.fname +" "+ users.lname);
+		}
+	}
+	
+	public void SortByMovies()//searching by movies
+	{
+		TreeSet<Movies> sortedMovies = new TreeSet<Movies>();
+		sortedMovies.addAll(getMovies());
+		Iterator<Movies> iter = sortedMovies.iterator();//Goes through movies to search through them
+		while(iter.hasNext())
+		{
+			Movies movies = iter.next();
+			System.out.println(movies.title);
+		}
+	}
 	
 	// simplified login method
-	  public boolean login(String userId, String lName) {
-	    Optional<Users> user = Optional.fromNullable(usersIndex.get(userId));
+	  public boolean login(Long userId, String lName) {
+	    Optional<Users> user = Optional.fromNullable(usersIndex.get(userId));//Links a userId to lName
 	    if (user.isPresent() && user.get().lname.equals(lName)) {
 	      currentUser = user;
 	      return true;

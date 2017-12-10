@@ -5,7 +5,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Movies {
+public class Movies implements Comparable<Movies>{
 	
 	static Long counter=0L;
 	
@@ -37,6 +37,13 @@ public class Movies {
 				.addValue(year)
 				.addValue(url)
 				.toString();
+	}
+
+
+	@Override
+	public int compareTo(Movies movie) {
+		// TODO Auto-generated method stub
+		return this.title.compareTo(movie.title);
 	}
 	
 }
